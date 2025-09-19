@@ -1,0 +1,9 @@
+Logo Assets Placeholder
+=======================
+
+Please add the following files to this directory:
+
+1. artomart.jpg - Round logo for the application
+2. artomart.png - App name with curved edges
+
+For now, we'll use a CSS-based logo design in the registration component.

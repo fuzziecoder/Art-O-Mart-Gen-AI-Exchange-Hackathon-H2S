@@ -1,0 +1,60 @@
+/* Logo and Branding Styles */
+.logo {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%; /* round shape */
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+.brand-name {
+  height: 32px;
+  margin-left: 10px;
+  object-fit: contain;
+  transition: opacity 0.2s ease;
+}
+
+.brand-name:hover {
+  opacity: 0.9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .logo {
+    height: 32px;
+    width: 32px;
+  }
+  
+  .brand-name {
+    height: 24px;
+    margin-left: 8px;
+  }
+}
+
+/* Additional branding utilities */
+.branding-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fallback-logo {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  color: white;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fallback-brand {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: bold;
+}
