@@ -18,14 +18,35 @@ const ChatMessage = ({ message, onAddToCart, onViewProduct }) => {
       <div className={`flex max-w-4xl ${isUser ? 'flex-row-reverse' : 'flex-row'} items-start space-x-3`}>
         {/* Avatar */}
         <div className={`flex-shrink-0 ${isUser ? 'ml-3' : 'mr-3'}`}>
-          <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+          <div className={`w-10 h-10 rounded-full flex items-center justify-center overflow-hidden ${
             isUser ? 'bg-primary' : 'bg-accent'
           }`}>
-            <Icon 
-              name={isUser ? 'User' : 'Bot'} 
-              size={20} 
-              color={isUser ? 'var(--color-primary-foreground)' : 'var(--color-accent-foreground)'} 
-            />
+            {isUser ? (
+              <Icon 
+                name="User" 
+                size={20} 
+                color="var(--color-primary-foreground)"
+              />
+            ) : (
+              <>
+                <img 
+                  src="/chatbot-logo.jpg"
+                  alt="AI Assistant" 
+                  className="w-8 h-8 rounded-full object-cover"
+                  onError={(e) => {
+                    // Fallback to Bot icon if logo doesn't load
+                    e.target.style.display = 'none'
+                    e.target.nextSibling.style.display = 'flex'
+                  }}
+                />
+                <Icon 
+                  name="Bot" 
+                  size={20} 
+                  color="var(--color-accent-foreground)" 
+                  className="hidden"
+                />
+              </>
+            )}
           </div>
         </div>
 
@@ -45,64 +66,99 @@ const ChatMessage = ({ message, onAddToCart, onViewProduct }) => {
 
             {/* Product Recommendations */}
             {message?.products && message?.products?.length > 0 && (
-              <div className="mt-4 space-y-3">
-                {message?.products?.map((product) => (
-                  <div key={product?.id} className="bg-background rounded-lg border border-border p-4">
-                    <div className="flex space-x-4">
-                      <div className="flex-shrink-0">
-                        <div className="w-20 h-20 rounded-lg overflow-hidden">
-                          <Image
-                            src={product?.image}
-                            alt={product?.name}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      </div>
-                      
-                      <div className="flex-1 min-w-0">
-                        <h4 className="text-sm font-semibold text-foreground mb-1">
-                          {product?.name}
-                        </h4>
-                        <p className="text-xs text-muted-foreground mb-2">
-                          by {product?.artisan}
-                        </p>
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-semibold text-primary">
-                            ₹{product?.price?.toLocaleString()}
-                          </span>
-                          <div className="flex items-center space-x-1">
-                            <Icon name="Star" size={12} className="text-warning fill-current" />
-                            <span className="text-xs text-muted-foreground">
-                              {product?.rating}
-                            </span>
+              <div className="mt-4">
+                <h5 className="text-xs font-semibold text-card-foreground mb-3 flex items-center">
+                  <Icon name="Package" size={14} className="mr-2" />
+                  Recommended Products
+                </h5>
+                <div className="space-y-3">
+                  {message?.products?.map((product, index) => (
+                    <div key={index} className="bg-background rounded-lg border border-border p-4">
+                      <div className="flex space-x-4">
+                        {/* Product Icon/Category */}
+                        <div className="flex-shrink-0">
+                          <div className="w-16 h-16 rounded-lg bg-muted flex items-center justify-center">
+                            <Icon 
+                              name={product?.category === 'Pottery' ? 'Coffee' : 
+                                   product?.category === 'Textiles' ? 'Shirt' : 
+                                   product?.category === 'Jewelry' ? 'Diamond' : 
+                                   'Package'} 
+                              size={20} 
+                              className="text-muted-foreground" 
+                            />
                           </div>
                         </div>
                         
-                        <div className="flex space-x-2 mt-3">
-                          <Button
-                            variant="outline"
-                            size="xs"
-                            onClick={() => onViewProduct(product?.id)}
-                            className="text-xs"
-                          >
-                            View Details
-                          </Button>
-                          <Button
-                            variant="default"
-                            size="xs"
-                            iconName="ShoppingCart"
-                            iconPosition="left"
-                            iconSize={12}
-                            onClick={() => onAddToCart(product?.id)}
-                            className="text-xs"
-                          >
-                            Add to Cart
-                          </Button>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-sm font-semibold text-foreground mb-1">
+                            {product?.name}
+                          </h4>
+                          <div className="flex items-center space-x-2 mb-2">
+                            <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">
+                              {product?.category}
+                            </span>
+                            <span className="text-xs text-muted-foreground flex items-center">
+                              <Icon name="MapPin" size={10} className="mr-1" />
+                              {product?.region}
+                            </span>
+                          </div>
+                          
+                          <p className="text-xs text-muted-foreground mb-2">
+                            {product?.description}
+                          </p>
+                          
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-semibold text-primary">
+                              {product?.priceRange}
+                            </span>
+                          </div>
+                          
+                          {/* Cultural Significance */}
+                          {product?.culturalSignificance && (
+                            <div className="mb-2 p-2 bg-accent/10 rounded border-l-2 border-accent">
+                              <p className="text-xs text-foreground leading-relaxed">
+                                <Icon name="Heart" size={10} className="inline mr-1 text-accent" />
+                                {product?.culturalSignificance}
+                              </p>
+                            </div>
+                          )}
+                          
+                          {/* Artisan Info */}
+                          {product?.artisanInfo && (
+                            <div className="mb-3 p-2 bg-muted rounded">
+                              <p className="text-xs text-muted-foreground">
+                                <Icon name="User" size={10} className="inline mr-1" />
+                                {product?.artisanInfo}
+                              </p>
+                            </div>
+                          )}
+                          
+                          <div className="flex space-x-2">
+                            <Button
+                              variant="outline"
+                              size="xs"
+                              onClick={() => onViewProduct(product?.name)}
+                              className="text-xs"
+                            >
+                              Learn More
+                            </Button>
+                            <Button
+                              variant="default"
+                              size="xs"
+                              iconName="ShoppingCart"
+                              iconPosition="left"
+                              iconSize={12}
+                              onClick={() => onAddToCart(product?.name)}
+                              className="text-xs"
+                            >
+                              Find Similar
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             )}
 

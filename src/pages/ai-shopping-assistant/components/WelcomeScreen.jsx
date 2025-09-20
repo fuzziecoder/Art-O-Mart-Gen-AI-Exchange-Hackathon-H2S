@@ -38,8 +38,18 @@ const WelcomeScreen = ({ onStartConversation }) => {
       <div className="max-w-2xl mx-auto text-center">
         {/* Welcome Header */}
         <div className="mb-8">
-          <div className="w-20 h-20 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
-            <Icon name="Bot" size={32} color="var(--color-accent-foreground)" />
+          <div className="w-20 h-20 bg-accent rounded-full overflow-hidden flex items-center justify-center mx-auto mb-4">
+            <img 
+              src="/chatbot-logo.jpg"
+              alt="AI Assistant" 
+              className="w-16 h-16 rounded-full object-cover"
+              onError={(e) => {
+                // Fallback to Bot icon if logo doesn't load
+                e.target.style.display = 'none'
+                e.target.nextSibling.style.display = 'flex'
+              }}
+            />
+            <Icon name="Bot" size={32} color="var(--color-accent-foreground)" className="hidden" />
           </div>
           
           <h1 className="text-3xl font-heading font-bold text-foreground mb-2">

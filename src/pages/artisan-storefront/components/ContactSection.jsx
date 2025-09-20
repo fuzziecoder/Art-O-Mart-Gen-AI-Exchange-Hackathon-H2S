@@ -91,8 +91,18 @@ const ContactSection = ({ artisan }) => {
       {/* AI Assistant */}
       <div className="mb-6 p-4 bg-accent/5 rounded-lg border border-accent/20">
         <div className="flex items-start gap-3">
-          <div className="p-2 bg-accent/10 rounded-lg flex-shrink-0">
-            <Icon name="Bot" size={20} className="text-accent" />
+          <div className="p-2 bg-accent/10 rounded-lg flex-shrink-0 overflow-hidden">
+            <img 
+              src="/chatbot-logo.jpg"
+              alt="AI Assistant" 
+              className="w-5 h-5 rounded object-cover"
+              onError={(e) => {
+                // Fallback to Bot icon if logo doesn't load
+                e.target.style.display = 'none'
+                e.target.nextSibling.style.display = 'block'
+              }}
+            />
+            <Icon name="Bot" size={20} className="text-accent hidden" />
           </div>
           <div className="flex-1">
             <h3 className="font-medium text-foreground mb-2">

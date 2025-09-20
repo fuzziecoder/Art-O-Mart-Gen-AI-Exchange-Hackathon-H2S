@@ -76,7 +76,7 @@ const Header = () => {
           <div className="relative">
             {/* Custom logo with fallback */}
             <img 
-              src="/artomart-logo.jpg" 
+              src="/artomart-logo.png" 
               alt="Art O Mart Logo" 
               className="logo w-10 h-10 rounded-full object-cover"
               onError={(e) => {
@@ -250,9 +250,19 @@ const Header = () => {
       {/* AI Assistant Floating Button (Mobile) */}
       <Link
         to="/ai-shopping-assistant"
-        className="lg:hidden fixed bottom-6 right-6 z-[1000] w-14 h-14 bg-accent text-accent-foreground rounded-full shadow-warm-lg flex items-center justify-center hover:scale-105 transition-transform duration-200"
+        className="lg:hidden fixed bottom-6 right-6 z-[1000] w-14 h-14 bg-accent text-accent-foreground rounded-full shadow-warm-lg flex items-center justify-center hover:scale-105 transition-transform duration-200 overflow-hidden"
       >
-        <Icon name="Bot" size={24} />
+        <img 
+          src="/chatbot-logo.jpg"
+          alt="AI Assistant" 
+          className="w-10 h-10 rounded-full object-cover"
+          onError={(e) => {
+            // Fallback to Bot icon if logo doesn't load
+            e.target.style.display = 'none'
+            e.target.nextSibling.style.display = 'flex'
+          }}
+        />
+        <Icon name="Bot" size={24} className="hidden" />
       </Link>
     </header>
   );

@@ -115,7 +115,7 @@ const Login = () => {
           >
             {/* Custom logo with fallback */}
             <img 
-              src="/artomart-logo.jpg" 
+              src="/artomart-logo.png" 
               alt="Art O Mart Logo" 
               className="w-16 h-16 rounded-2xl object-cover"
               onError={(e) => {
@@ -128,8 +128,31 @@ const Login = () => {
               <span className="text-2xl font-bold text-primary-foreground">A</span>
             </div>
           </motion.div>
-          <h1 className="text-2xl font-heading font-bold text-foreground mb-2">
-            Welcome back to Art O Mart
+          
+          {/* Brand Name Image */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mb-4"
+          >
+            <img 
+              src="/artomart-name.png" 
+              alt="Art O Mart" 
+              className="h-10 mx-auto object-contain"
+              onError={(e) => {
+                // Fallback to text if brand image doesn't exist
+                e.target.style.display = 'none'
+                e.target.nextSibling.style.display = 'block'
+              }}
+            />
+            <h1 className="hidden text-2xl font-heading font-bold text-foreground">
+              Art O Mart
+            </h1>
+          </motion.div>
+          
+          <h1 className="text-xl font-heading font-semibold text-foreground mb-2">
+            Welcome back
           </h1>
           <p className="text-muted-foreground">
             Sign in to continue exploring authentic handcrafted treasures

@@ -38,10 +38,10 @@ const Settings = () => {
         email: user.email || '',
         phone: userProfile.phone || '',
         role: userProfile.role || 'buyer',
-        address: userProfile.address || '',
-        city: userProfile.city || '',
-        state: userProfile.state || '',
-        country: userProfile.country || '',
+        address: userProfile?.address || '',
+        city: userProfile?.city || '',
+        state: userProfile?.state || '',
+        country: userProfile?.country || 'India',
         preferences: {
           newsletter: userProfile.preferences?.newsletter ?? true,
           notifications: userProfile.preferences?.notifications ?? true,
@@ -74,19 +74,39 @@ const Settings = () => {
     setMessage({ type: '', content: '' });
 
     try {
-      const { error } = await updateProfile({
-        name: profileData.name,
+      // Only include fields that exist in the database schema
+      const profileUpdates = {
+        full_name: profileData.name,
         phone: profileData.phone,
-        role: profileData.role,
+        role: profileData.role
+      };
+      
+      // Try to update with address fields first
+      const { error } = await updateProfile({
+        ...profileUpdates,
         address: profileData.address,
         city: profileData.city,
         state: profileData.state,
         country: profileData.country,
         preferences: profileData.preferences
       });
-
+      
       if (error) {
-        setMessage({ type: 'error', content: error.message });
+        // If address fields cause error, try without them
+        if (error.message?.includes('address') || error.message?.includes('column')) {
+          const { error: fallbackError } = await updateProfile(profileUpdates);
+          if (fallbackError) {
+            setMessage({ type: 'error', content: fallbackError.message });
+          } else {
+            setMessage({ 
+              type: 'warning', 
+              content: 'Profile updated successfully! Note: Address fields are not yet available in your database schema.' 
+            });
+            setIsEditing(false);
+          }
+        } else {
+          setMessage({ type: 'error', content: error.message });
+        }
       } else {
         setMessage({ type: 'success', content: 'Profile updated successfully!' });
         setIsEditing(false);

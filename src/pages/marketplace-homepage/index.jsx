@@ -251,7 +251,7 @@ const MarketplaceHomepage = () => {
                 <div className="relative">
                   {/* Custom logo with fallback */}
                   <img 
-                    src="/artomart-logo.jpg" 
+                    src="/artomart-logo.png" 
                     alt="Art O Mart Logo" 
                     className="w-10 h-10 rounded-full object-cover"
                     onError={(e) => {

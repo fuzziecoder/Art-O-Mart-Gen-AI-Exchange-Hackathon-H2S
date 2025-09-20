@@ -152,7 +152,7 @@ const TrustIndicators = () => {
                   alt={cert?.name}
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    e.target.src = '/assets/images/no_image.png';
+                    e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23f3f4f6'/%3E%3Ctext x='32' y='32' text-anchor='middle' dominant-baseline='middle' font-family='Arial' font-size='10' fill='%236b7280'%3ECert%3C/text%3E%3C/svg%3E";
                   }}
                 />
               </div>

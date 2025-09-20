@@ -61,7 +61,7 @@ export default function SimpleRegisterPage() {
           {/* Logo with fallback */}
           <div className="relative">
             <img 
-              src="/artomart-logo.jpg" 
+              src="/artomart-logo.png" 
               alt="Art O Mart Logo" 
               className="w-12 h-12 rounded-full object-cover shadow-sm"
               onError={(e) => {

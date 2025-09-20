@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@dhiwise/component-tagger": "^1.0.10",
+    "@google/generative-ai": "^0.24.1",
     "@radix-ui/react-slot": "^1.2.3",
     "@reduxjs/toolkit": "^2.6.1",
     "@supabase/supabase-js": "^2.57.4",

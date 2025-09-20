@@ -253,12 +253,38 @@ const Register = () => {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link to="/marketplace-homepage" className="flex items-center space-x-3">
-              <div className="flex items-center justify-center w-8 h-8 bg-primary rounded-lg">
-                <Icon name="Palette" size={20} color="var(--color-primary-foreground)" />
+              <div className="relative">
+                {/* Custom logo with fallback */}
+                <img 
+                  src="/artomart-logo.png" 
+                  alt="Art O Mart Logo" 
+                  className="w-8 h-8 rounded-lg object-cover"
+                  onError={(e) => {
+                    // Fallback to icon-based logo if image doesn't exist
+                    e.target.style.display = 'none'
+                    e.target.nextSibling.style.display = 'flex'
+                  }}
+                />
+                <div className="hidden w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                  <Icon name="Palette" size={20} color="var(--color-primary-foreground)" />
+                </div>
               </div>
-              <div>
-                <span className="text-lg font-heading font-semibold text-foreground">Art O Mart</span>
-                <span className="text-xs text-muted-foreground ml-2">Registration</span>
+              <div className="flex items-center space-x-2">
+                {/* Brand name image with fallback */}
+                <div className="relative">
+                  <img 
+                    src="/artomart-name.png" 
+                    alt="Art O Mart" 
+                    className="h-6 object-contain"
+                    onError={(e) => {
+                      // Fallback to text-based brand if image doesn't exist
+                      e.target.style.display = 'none'
+                      e.target.nextSibling.style.display = 'block'
+                    }}
+                  />
+                  <span className="hidden text-lg font-heading font-semibold text-foreground">Art O Mart</span>
+                </div>
+                <span className="text-xs text-muted-foreground">Registration</span>
               </div>
             </Link>
             
