@@ -13,6 +13,7 @@ import Login from './pages/login';
 import Signup from './pages/signup';
 import SimpleRegister from './pages/simple-register';
 import Settings from './pages/settings';
+import InnovationDemo from './pages/InnovationDemo';
 
 const Routes = () => {
   return (
@@ -22,6 +23,7 @@ const Routes = () => {
       <RouterRoutes>
         {/* Define your route here */}
         <Route path="/" element={<AIShoppingAssistant />} />
+        <Route path="/innovation-demo" element={<InnovationDemo />} />
         <Route path="/shopping-cart" element={<ShoppingCart />} />
         <Route path="/ai-shopping-assistant" element={<AIShoppingAssistant />} />
         <Route path="/artisan-dashboard" element={<ArtisanDashboard />} />

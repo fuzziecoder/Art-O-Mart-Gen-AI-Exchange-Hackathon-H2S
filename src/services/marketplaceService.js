@@ -1,4 +1,5 @@
 import { supabase } from '../lib/supabase';
+import { ALL_PRODUCTS, FEATURED_ARTISANS } from '../data/mockProducts';
 
 export const marketplaceService = {
   // Categories
@@ -20,42 +21,26 @@ export const marketplaceService = {
     }
   },
 
-  // Products
+  // Products - Using mock data for demo
   async getProducts(filters = {}) {
     try {
-      let query = supabase
-        ?.from('products')
-        ?.select(`
-          *,
-          artisan_profiles!inner (
-            id,
-            business_name,
-            trust_score,
-            is_verified,
-            user_profiles!inner (
-              full_name,
-              avatar_url
-            )
-          ),
-          categories!inner (
-            name,
-            slug
-          ),
-          product_reviews (
-            rating
-          )
-        `)
-        ?.eq('status', 'active');
+      let filteredProducts = [...ALL_PRODUCTS];
 
-      // Apply filters
+      // Apply category filter
       if (filters?.category && filters?.category !== 'all') {
-        query = query?.eq('categories.slug', filters?.category);
+        filteredProducts = filteredProducts.filter(product => 
+          product.category.toLowerCase() === filters.category.toLowerCase()
+        );
       }
 
+      // Apply region filter
       if (filters?.region && filters?.region !== 'all') {
-        query = query?.eq('artisan_profiles.region', filters?.region);
+        filteredProducts = filteredProducts.filter(product => 
+          product.region.toLowerCase() === filters.region.toLowerCase()
+        );
       }
 
+      // Apply price range filter
       if (filters?.priceRange && filters?.priceRange !== 'all') {
         const ranges = {
           'under-1000': [0, 999],
@@ -65,122 +50,75 @@ export const marketplaceService = {
           'above-10000': [10000, 999999]
         };
         const [min, max] = ranges?.[filters?.priceRange] || [0, 999999];
-        query = query?.gte('price', min)?.lte('price', max);
+        filteredProducts = filteredProducts.filter(product => 
+          product.price >= min && product.price <= max
+        );
       }
 
+      // Apply search query
       if (filters?.searchQuery) {
-        const searchTerm = `%${filters?.searchQuery?.toLowerCase()}%`;
-        query = query?.or(`title.ilike.${searchTerm},description.ilike.${searchTerm},tags.cs.{${filters?.searchQuery?.toLowerCase()}}`);
+        const searchTerm = filters.searchQuery.toLowerCase();
+        filteredProducts = filteredProducts.filter(product =>
+          product.title.toLowerCase().includes(searchTerm) ||
+          product.description.toLowerCase().includes(searchTerm) ||
+          product.tags.some(tag => tag.toLowerCase().includes(searchTerm)) ||
+          product.region.toLowerCase().includes(searchTerm) ||
+          product.category.toLowerCase().includes(searchTerm)
+        );
       }
 
       // Apply sorting
-      const sortOptions = {
-        'price-low': [{ column: 'price', ascending: true }],
-        'price-high': [{ column: 'price', ascending: false }],
-        'rating': [{ column: 'created_at', ascending: false }], // Placeholder for rating
-        'newest': [{ column: 'created_at', ascending: false }],
-        'recommended': [{ column: 'is_featured', ascending: false }, { column: 'created_at', ascending: false }]
-      };
-      
-      const sortBy = sortOptions?.[filters?.sortBy || 'recommended'] || sortOptions?.recommended;
-      sortBy?.forEach(sort => {
-        query = query?.order(sort?.column, { ascending: sort?.ascending });
-      });
+      const sortBy = filters?.sortBy || 'recommended';
+      switch (sortBy) {
+        case 'price-low':
+          filteredProducts.sort((a, b) => a.price - b.price);
+          break;
+        case 'price-high':
+          filteredProducts.sort((a, b) => b.price - a.price);
+          break;
+        case 'rating':
+          filteredProducts.sort((a, b) => b.rating - a.rating);
+          break;
+        case 'newest':
+          // Assume products are already in newest order
+          break;
+        case 'recommended':
+        default:
+          filteredProducts.sort((a, b) => {
+            if (a.isFeatured && !b.isFeatured) return -1;
+            if (!a.isFeatured && b.isFeatured) return 1;
+            return b.rating - a.rating;
+          });
+          break;
+      }
 
       // Apply pagination
       const limit = filters?.limit || 12;
-      const offset = (filters?.page || 1 - 1) * limit;
-      query = query?.range(offset, offset + limit - 1);
-
-      const { data, error } = await query;
+      const page = filters?.page || 1;
+      const offset = (page - 1) * limit;
+      const paginatedProducts = filteredProducts.slice(offset, offset + limit);
       
-      if (error) {
-        return { data: [], error: error?.message };
-      }
-
-      // Calculate average ratings
-      const productsWithRatings = data?.map(product => {
-        const reviews = product?.product_reviews || [];
-        const avgRating = reviews?.length > 0 
-          ? reviews?.reduce((sum, review) => sum + review?.rating, 0) / reviews?.length 
-          : 0;
-        
-        return {
-          ...product,
-          rating: Math.round(avgRating * 10) / 10,
-          reviewCount: reviews?.length,
-          artisan: {
-            name: product?.artisan_profiles?.user_profiles?.full_name,
-            businessName: product?.artisan_profiles?.business_name,
-            image: product?.artisan_profiles?.user_profiles?.avatar_url,
-            trustScore: product?.artisan_profiles?.trust_score,
-            verified: product?.artisan_profiles?.is_verified
-          },
-          category: product?.categories?.name
-        };
-      });
-      
-      return { data: productsWithRatings || [], error: null };
+      return { 
+        data: paginatedProducts, 
+        error: null,
+        totalCount: filteredProducts.length,
+        hasMore: offset + limit < filteredProducts.length
+      };
     } catch (error) {
+      console.error('Error fetching products:', error);
       return { data: [], error: 'Failed to fetch products' };
     }
   },
 
   async getFeaturedProducts(limit = 8) {
     try {
-      const { data, error } = await supabase
-        ?.from('products')
-        ?.select(`
-          *,
-          artisan_profiles!inner (
-            business_name,
-            trust_score,
-            is_verified,
-            user_profiles!inner (
-              full_name,
-              avatar_url
-            )
-          ),
-          categories (
-            name,
-            slug
-          ),
-          product_reviews (
-            rating
-          )
-        `)
-        ?.eq('status', 'active')
-        ?.eq('is_featured', true)
-        ?.limit(limit);
+      const featuredProducts = ALL_PRODUCTS
+        .filter(product => product.isFeatured)
+        .slice(0, limit);
       
-      if (error) {
-        return { data: [], error: error?.message };
-      }
-      
-      // Transform data similar to getProducts
-      const featuredProducts = data?.map(product => {
-        const reviews = product?.product_reviews || [];
-        const avgRating = reviews?.length > 0 
-          ? reviews?.reduce((sum, review) => sum + review?.rating, 0) / reviews?.length 
-          : 0;
-        
-        return {
-          ...product,
-          rating: Math.round(avgRating * 10) / 10,
-          reviewCount: reviews?.length,
-          artisan: {
-            name: product?.artisan_profiles?.user_profiles?.full_name,
-            businessName: product?.artisan_profiles?.business_name,
-            image: product?.artisan_profiles?.user_profiles?.avatar_url,
-            trustScore: product?.artisan_profiles?.trust_score,
-            verified: product?.artisan_profiles?.is_verified
-          },
-          category: product?.categories?.name
-        };
-      });
-      
-      return { data: featuredProducts || [], error: null };
+      return { data: featuredProducts, error: null };
     } catch (error) {
+      console.error('Error fetching featured products:', error);
       return { data: [], error: 'Failed to fetch featured products' };
     }
   },

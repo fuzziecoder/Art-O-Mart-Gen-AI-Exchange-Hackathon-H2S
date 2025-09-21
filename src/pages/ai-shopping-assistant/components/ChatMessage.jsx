@@ -2,6 +2,8 @@ import React from 'react';
 import Icon from '../../../components/AppIcon';
 import Image from '../../../components/AppImage';
 import Button from '../../../components/ui/Button';
+import CulturalFootnote from '../../../components/CulturalFootnote';
+import TrustScore from '../../../components/TrustScore';
 
 const ChatMessage = ({ message, onAddToCart, onViewProduct }) => {
   const isUser = message?.sender === 'user';
@@ -123,6 +125,40 @@ const ChatMessage = ({ message, onAddToCart, onViewProduct }) => {
                             </div>
                           )}
                           
+                          {/* Trust Score */}
+                          <div className="mb-3">
+                            <TrustScore 
+                              productData={{
+                                name: product?.name,
+                                category: product?.category,
+                                region: product?.region,
+                                description: product?.description
+                              }}
+                              imageUrls={[]}
+                              className="text-xs"
+                            />
+                          </div>
+
+                          {/* Cultural Footnote */}
+                          <div className="mb-3">
+                            <CulturalFootnote 
+                              productName={product?.name}
+                              productRegion={product?.region}
+                              userRegion="India" // This could come from user preferences
+                              className=""
+                            />
+                          </div>
+
+                          {/* Climate & Festival Suitability */}
+                          {product?.climateNote && (
+                            <div className="mb-2 p-2 bg-blue-50 rounded border-l-2 border-blue-300">
+                              <p className="text-xs text-blue-800 leading-relaxed">
+                                <Icon name="Cloud" size={10} className="inline mr-1 text-blue-600" />
+                                {product?.climateNote}
+                              </p>
+                            </div>
+                          )}
+
                           {/* Artisan Info */}
                           {product?.artisanInfo && (
                             <div className="mb-3 p-2 bg-muted rounded">

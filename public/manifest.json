@@ -1,11 +1,13 @@
 {
-  "short_name": "art-o-mart",
-  "name": "art-o-mart",
+  "short_name": "Art O Mart",
+  "name": "Art O Mart - Handcrafted Artisan Marketplace",
+  "description": "Discover unique handcrafted products from talented artisans worldwide",
   "icons": [
     {
-      "src": "/favicon-16x16.png",
-      "sizes": "16x16",
-      "type": "image/png"
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     },
     {
       "src": "/favicon-32x32.png",
@@ -13,13 +15,15 @@
       "type": "image/png"
     },
     {
-      "src": "/apple-touch-icon.png",
-      "sizes": "180x180",
-      "type": "image/png"
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32 48x48",
+      "type": "image/x-icon"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#6366f1",
+  "background_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "categories": ["shopping", "lifestyle", "business"]
 }

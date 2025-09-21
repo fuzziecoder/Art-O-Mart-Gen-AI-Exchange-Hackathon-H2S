@@ -14,11 +14,23 @@ Art-O-Mart serves as a bridge between skilled artisans and customers who appreci
 
 ## 🚀 Key Features
 
+### 🤖 **Revolutionary AI Features**
+- **Geo-aware Cultural Adaptation**: AI automatically adapts product descriptions based on user location and cultural context
+- **Multimodal RAG System**: Advanced search combining text and image understanding for better product discovery
+- **AI-assisted Trust Engine**: Automated provenance verification, trust scoring, and authenticity badges
+- **Seller Coaching Agent**: AI-powered personalized coaching for listing optimization and marketing content
+- **Cultural Footnote Widget**: Rich cultural context with audio narratives for products
+- **Smart Analytics Dashboard**: AI-driven insights on marketplace fairness, exposure, and cultural adaptation
+- **Multi-Agent AI System**: Specialized AI agents for different marketplace functions
+- **Smart Product Images**: AI-curated image selection with intelligent fallbacks
+- **Interactive AI Chat Assistant**: Conversational AI for product recommendations and cultural insights
+
 ### 🏪 **Marketplace Core**
 - **Multi-vendor Platform**: Support for multiple artisans with individual storefronts
 - **Product Catalog**: Comprehensive product listings with detailed descriptions, images, and artisan stories
 - **Advanced Search & Filtering**: Find products by category, region, price, materials, and more
 - **Featured Products**: Highlight exceptional craftsmanship and new arrivals
+- **Featured Artisans**: Showcase artisan profiles with detailed stories, achievements, and social impact
 
 ### 👤 **User Management**
 - **Dual Role System**: Separate experiences for customers and artisans
@@ -124,6 +136,10 @@ art-o-mart/
 ├── src/
 │   ├── components/           # Reusable UI components
 │   │   ├── ui/              # Base UI components
+│   │   ├── FeaturedArtisans.jsx # Mobile-optimized artisan showcase
+│   │   ├── SmartProductImage.jsx # AI-powered product images
+│   │   ├── AIChatAssistant.jsx # Multi-agent AI chat interface
+│   │   ├── InnovationDemo.jsx # AI features demonstration
 │   │   └── ErrorBoundary.jsx # Error handling
 │   ├── contexts/            # React contexts
 │   │   └── AuthContext.jsx  # Authentication context
@@ -131,7 +147,12 @@ art-o-mart/
 │   │   ├── login/           # Authentication pages
 │   │   └── NotFound.jsx     # 404 page
 │   ├── services/            # API services
-│   │   └── marketplaceService.js
+│   │   ├── marketplaceService.js # Core marketplace API
+│   │   ├── gemini.js           # Gemini AI integration
+│   │   └── aiAgents.js         # Multi-agent AI system
+│   ├── data/                # Mock data and assets
+│   │   ├── mockProducts.js     # Comprehensive product database
+│   │   └── productImages.js    # Curated image library
 │   ├── lib/                 # Configuration
 │   │   └── supabase.js      # Supabase client
 │   ├── styles/              # Global styles
