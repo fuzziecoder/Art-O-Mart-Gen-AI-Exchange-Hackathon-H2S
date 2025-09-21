@@ -362,7 +362,7 @@ npm install
 ## 🏆 Hackathon Information
 
 **Event**: Gen AI Exchange Hackathon H2S  
-**Team**: FuzzieCoder  
+**Team**: Cogito Coders 
 **Theme**: Empowering traditional artisans through modern technology  
 **Goal**: Create a sustainable platform for artisan communities  
 
