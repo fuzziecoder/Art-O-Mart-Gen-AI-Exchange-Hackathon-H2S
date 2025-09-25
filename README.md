@@ -1,7 +1,5 @@
 # Art-O-Mart - Handcrafted Artisan Marketplace
-![favicon-32x32](https://github.com/user-attachments/assets/4c21e765-d5e6-40f0-af43-4f8682d8aa1b) <img width="314" height="61" alt="artomart-name" src="https://github.com/user-attachments/assets/3c002d9d-f40f-4e37-acf2-b26faaa0fd3e" />
-
-
+<img width="314" height="61" alt="artomart-name" src="https://github.com/user-attachments/assets/3c002d9d-f40f-4e37-acf2-b26faaa0fd3e" />
 **Empowering artisans, connecting communities, celebrating craftsmanship.**
 
 Art-O-Mart is a modern React-based marketplace platform designed specifically for artisans to showcase and sell their handcrafted products. Built for the Gen AI Exchange Hackathon, this application combines cutting-edge web technologies with a focus on supporting traditional craftsmanship and connecting artisans directly with customers.
