@@ -1,4 +1,4 @@
-# Art-O-Mart - Handcrafted Artisan Marketplace
+# <img width="314" height="61" alt="artomart-name" src="https://github.com/user-attachments/assets/3c002d9d-f40f-4e37-acf2-b26faaa0fd3e" />- Handcrafted Artisan Marketplace
 <img width="314" height="61" alt="artomart-name" src="https://github.com/user-attachments/assets/3c002d9d-f40f-4e37-acf2-b26faaa0fd3e" />
 **Empowering artisans, connecting communities, celebrating craftsmanship.**
 
