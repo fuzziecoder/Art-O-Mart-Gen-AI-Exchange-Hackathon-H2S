@@ -1,5 +1,5 @@
 # Art-O-Mart - Handcrafted Artisan Marketplace
-![favicon-16x16](https://github.com/user-attachments/assets/0cac8426-2c7a-4d4f-9da4-ea5c624304f6)<img width="314" height="61" alt="artomart-name" src="https://github.com/user-attachments/assets/3c002d9d-f40f-4e37-acf2-b26faaa0fd3e" />
+![favicon-32x32](https://github.com/user-attachments/assets/4c21e765-d5e6-40f0-af43-4f8682d8aa1b) <img width="314" height="61" alt="artomart-name" src="https://github.com/user-attachments/assets/3c002d9d-f40f-4e37-acf2-b26faaa0fd3e" />
 
 
 **Empowering artisans, connecting communities, celebrating craftsmanship.**
